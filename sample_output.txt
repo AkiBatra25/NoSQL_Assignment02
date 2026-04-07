@@ -1,0 +1,10 @@
+b	204
+bb	3
+bbblg	1
+bbc	5
+bbdio	1
+bboo	1
+bbott	1
+bbrevi	1
+bbrevii	1
+bbreviis	1
