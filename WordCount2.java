@@ -64,9 +64,17 @@ public class WordCount2 {
 			}
 			String[] tokens = line.split("[^\\w']+");
 			for (String token : tokens) {
-				word.set(token);
-				context.write(word, one);
-			}
+			token = token.trim();
+
+			// skip empty
+			if (token.isEmpty()) continue;
+
+			// keep only alphabetic words
+			if (!token.matches("[a-zA-Z]+")) continue;
+
+			word.set(token.toLowerCase());
+			context.write(word, one);
+		}
 		}
 	}
 
