@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.naming.Context;
 
+import org.apache.hadoop.mapreduce.Mapper;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -26,18 +28,22 @@ public class WordCount2 {
 		private Text word = new Text();
 
 		private boolean caseSensitive = false;
-		private Set<String> patternsToSkip = new HashSet<String>();
+		private Set<String> stopWords = new HashSet<String>();
 
 		@Override
 		public void setup(Context context) throws IOException, InterruptedException {
 			Configuration conf = context.getConfiguration();
 			caseSensitive = conf.getBoolean("wordcount.case.sensitive", false);
+
 			if (conf.getBoolean("wordcount.skip.patterns", false)) {
-				URI[] patternsURIs = Job.getInstance(conf).getCacheFiles();
-				for (URI patternsURI : patternsURIs) {
-					Path patternsPath = new Path(patternsURI.getPath());
-					String patternsFileName = patternsPath.getName().toString();
-					parseSkipFile(patternsFileName);
+				URI[] patternsURIs = context.getCacheFiles();
+
+				if (patternsURIs != null) {
+					for (URI patternsURI : patternsURIs) {
+						Path patternsPath = new Path(patternsURI.getPath());
+						String patternsFileName = patternsPath.getName();
+						parseSkipFile(patternsFileName);
+					}
 				}
 			}
 		}
@@ -47,7 +53,7 @@ public class WordCount2 {
 				BufferedReader reader = new BufferedReader(new FileReader(fileName));
 				String pattern = null;
 				while ((pattern = reader.readLine()) != null) {
-					patternsToSkip.add(pattern);
+					stopWords.add(pattern.trim().toLowerCase());
 				}
 				reader.close();
 			} catch (IOException ioe) {
@@ -59,9 +65,7 @@ public class WordCount2 {
 		@Override
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 			String line = (caseSensitive) ? value.toString() : value.toString().toLowerCase();
-			for (String pattern : patternsToSkip) {
-				line = line.replaceAll(pattern, "");
-			}
+			
 			String[] tokens = line.split("[^\\w']+");
 			for (String token : tokens) {
 			token = token.trim();
@@ -71,6 +75,9 @@ public class WordCount2 {
 
 			// keep only alphabetic words
 			if (!token.matches("[a-zA-Z]+")) continue;
+
+			if(token.length()<=2)continue;
+			if (stopWords.contains(token.toLowerCase())) continue;
 
 			word.set(token.toLowerCase());
 			context.write(word, one);
