@@ -1,45 +1,28 @@
-How to Run TF-Score (Problem 2b)
+How to Run TF-Score (Problem 2b) Locally
 
-1. Compile:
+1. Clean previous build files (optional):
+   rm -rf classes output_local tfscore.jar top100_df.tsv q2b_final_scores.tsv
+   mkdir -p classes
 
-   javac -classpath `hadoop classpath`:opennlp-tools-1.9.3.jar -d classes WholeFileInputFormat.java TFScoreStripes.java
+2. Compile:
+   export JAVAC_CP="$(hadoop classpath):$(pwd)/opennlp-tools-1.9.3.jar"
+   javac -classpath "$JAVAC_CP" -d classes WholeFileInputFormat.java TFScoreStripes.java
 
-2. Create jar:
+3. Package into jar:
+   jar -cvf tfscore.jar -C classes .
 
-   jar -cvf tfscore.jar -C classes/ .
+4. Prepare DF cache file (using top100.txt output from Q2A):
+   cp top100.txt top100_df.tsv
 
-3. Prepare DF cache file (assumes you already ran DocumentFrequency for Q2A):
+5. Run MapReduce Job (Local Mode):
+   export HADOOP_CLASSPATH="$(pwd)/opennlp-tools-1.9.3.jar"
+   hadoop jar tfscore.jar TFScoreStripes Wikipedia-50-ARTICLES/ output_local top100_df.tsv
 
-   # sort by DF descending, keep top 100
-   cat output_df/part-r-00000 | sort -k2 -nr | head -100 > top100.txt
-   # normalize to TERM<TAB>DF
-   awk '{print $1 "\t" $2}' top100.txt > top100_df.tsv
-   # copy to HDFS if running on a cluster
-   hadoop fs -put -f top100_df.tsv /user/<you>/top100_df.tsv
+6. Export Final Result:
+   cp output_local/part-r-00000 q2b_final_scores.tsv
 
-4. Run (cluster / HDFS example):
-
-   hadoop jar tfscore.jar TFScoreStripes \
-     -D mapreduce.job.maps=4 \
-     hdfs:///user/<you>/Wikipedia-EN-20120601_ARTICLES/ \
-     hdfs:///user/<you>/output_tfscore_q2b \
-     hdfs:///user/<you>/top100_df.tsv
-
-   # local mode example (quick test):
-   hadoop jar tfscore.jar TFScoreStripes \
-     -D mapreduce.framework.name=local \
-     -D mapreduce.job.maps=2 \
-     local_input_dir/ \
-     local_output_dir/ \
-     top100_df.tsv
-
-5. Result: a TSV file in the output folder with schema:
-
-   ID<TAB>TERM<TAB>SCORE
-
-   Example: 107301.txt<TAB>world<TAB>12.345600
+7. Verify Output (Schema: ID<TAB>TERM<TAB>SCORE):
+   head -n 15 q2b_final_scores.tsv
 
 Notes:
-- The mapper and reducer both load the cached DF file (third positional argument) at setup time.
-- Ensure `top100_df.tsv` contains stemmed, lowercased terms with DF counts (TERM<TAB>DF).
-- Include `opennlp-tools-1.9.3.jar` on the classpath during compile and when running if required by your environment.
+- Ensure opennlp-tools-1.9.3.jar is present in the same directory.
