@@ -1,0 +1,22 @@
+How to Run Document Frequency (Problem 2a)
+
+1. Compile:
+   javac -classpath `hadoop classpath`:opennlp-tools-1.9.3.jar -d classes DocumentFrequency.java
+
+2. Create jar:
+   jar -cvf myjar.jar -C classes/ .
+
+3. Run (local mode):
+   hadoop jar myjar.jar DocumentFrequency 
+   -D mapreduce.job.maps=2  <path-to-input-data> \
+
+   <output-folder>
+
+Example:
+hadoop jar myjar.jar DocumentFrequency 
+-D mapreduce.job.maps=2 
+~/nosql-work/Wikipedia-EN-20120601_ARTICLES 
+output_df
+
+4. Extract top 100 terms:
+   cat output_df/part-r-00000 | sort -k2 -nr | head -100 > top100.txt
