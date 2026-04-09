@@ -1,0 +1,45 @@
+How to Run TF-Score (Problem 2b)
+
+1. Compile:
+
+   javac -classpath `hadoop classpath`:opennlp-tools-1.9.3.jar -d classes WholeFileInputFormat.java TFScoreStripes.java
+
+2. Create jar:
+
+   jar -cvf tfscore.jar -C classes/ .
+
+3. Prepare DF cache file (assumes you already ran DocumentFrequency for Q2A):
+
+   # sort by DF descending, keep top 100
+   cat output_df/part-r-00000 | sort -k2 -nr | head -100 > top100.txt
+   # normalize to TERM<TAB>DF
+   awk '{print $1 "\t" $2}' top100.txt > top100_df.tsv
+   # copy to HDFS if running on a cluster
+   hadoop fs -put -f top100_df.tsv /user/<you>/top100_df.tsv
+
+4. Run (cluster / HDFS example):
+
+   hadoop jar tfscore.jar TFScoreStripes \
+     -D mapreduce.job.maps=4 \
+     hdfs:///user/<you>/Wikipedia-EN-20120601_ARTICLES/ \
+     hdfs:///user/<you>/output_tfscore_q2b \
+     hdfs:///user/<you>/top100_df.tsv
+
+   # local mode example (quick test):
+   hadoop jar tfscore.jar TFScoreStripes \
+     -D mapreduce.framework.name=local \
+     -D mapreduce.job.maps=2 \
+     local_input_dir/ \
+     local_output_dir/ \
+     top100_df.tsv
+
+5. Result: a TSV file in the output folder with schema:
+
+   ID<TAB>TERM<TAB>SCORE
+
+   Example: 107301.txt<TAB>world<TAB>12.345600
+
+Notes:
+- The mapper and reducer both load the cached DF file (third positional argument) at setup time.
+- Ensure `top100_df.tsv` contains stemmed, lowercased terms with DF counts (TERM<TAB>DF).
+- Include `opennlp-tools-1.9.3.jar` on the classpath during compile and when running if required by your environment.
