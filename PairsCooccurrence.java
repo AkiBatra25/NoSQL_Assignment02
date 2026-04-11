@@ -91,7 +91,7 @@ public class PairsCooccurrence {
         conf.setInt("distance", Integer.parseInt(args[2]));
 
         Job job = Job.getInstance(conf, "Pairs Cooccurrence");
-        job.addCacheFile(new Path("/top50.txt").toUri());
+        job.addCacheFile(new Path("top50.txt").toUri());
         job.setJarByClass(PairsCooccurrence.class);
 
         job.setMapperClass(PairMapper.class);
