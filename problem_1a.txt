@@ -1,0 +1,28 @@
+Problem 1(a): Top 50 Frequent Words using MapReduce
+
+Instructions to Run:
+1. Start Hadoop services:
+   start-dfs.sh
+   start-yarn.sh
+2. Verify Hadoop is running:
+   jps
+3. Upload the dataset to HDFS:
+   hdfs dfs -mkdir /wiki
+   hdfs dfs -put Wikipedia-EN-20120601_ARTICLES/* /wiki
+4. Upload stopwords file to HDFS:
+   hdfs dfs -put stopwords.txt /stopwords.txt
+5. Compile the Java program:
+   rm -rf classes wordcount2.jar
+   mkdir classes
+   javac -source 11 -target 11 -classpath `hadoop classpath` -d classes WordCount2.java
+6. Create the JAR file:
+   jar -cvf wordcount2.jar -C classes/ .
+7. Run the MapReduce job:
+   hdfs dfs -rm -r /wc_output
+   hadoop jar wordcount2.jar WordCount2 /wiki /wc_output -skippatterns /stopwords.txt
+8. View output:
+   hdfs dfs -cat /wc_output/part-r-00000 | head
+9. Extract Top 50 words:
+   hdfs dfs -cat /wc_output/part-r-00000 | sort -k2 -nr | head -50 > top50.txt
+10. View Top 50:
+    cat top50.txt
