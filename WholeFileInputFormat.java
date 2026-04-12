@@ -43,6 +43,7 @@ public class WholeFileInputFormat extends FileInputFormat<Text, Text> {
                 throws IOException, InterruptedException {
             this.fileSplit = (FileSplit) genericSplit;
             this.conf = context.getConfiguration();
+            System.out.println("[INFO] WholeFileRecordReader: Initializing read for file -> " + fileSplit.getPath().getName());
         }
 
         @Override

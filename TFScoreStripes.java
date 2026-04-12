@@ -33,8 +33,12 @@ public class TFScoreStripes {
 
         @Override
         protected void setup(Context context) throws IOException, InterruptedException {
+            System.out.println("[INFO] TFMapper: setup() started. Loading distributed cache...");
             URI[] cacheFiles = context.getCacheFiles();
-            if (cacheFiles == null) return;
+            if (cacheFiles == null) {
+                System.out.println("[WARN] TFMapper: Cache files are null!");
+                return;
+            }
 
             for (URI uri : cacheFiles) {
                 String name = new Path(uri.getPath()).getName();
@@ -67,6 +71,9 @@ public class TFScoreStripes {
             String docId = key.toString();
             String content = value.toString().toLowerCase();
 
+            // Print progress to terminal for screenshots!
+            System.out.println("[INFO] TFMapper Processing document: " + docId);
+
             String[] tokens = content.split("\\W+");
             Map<String, Integer> tf = new HashMap<>();
 
@@ -98,8 +105,12 @@ public class TFScoreStripes {
 
         @Override
         protected void setup(Context context) throws IOException, InterruptedException {
+            System.out.println("[INFO] TFReducer: setup() started. Loading distributed cache...");
             URI[] cacheFiles = context.getCacheFiles();
-            if (cacheFiles == null) return;
+            if (cacheFiles == null) {
+                System.out.println("[WARN] TFReducer: Cache files are null!");
+                return;
+            }
 
             for (URI uri : cacheFiles) {
                 String name = new Path(uri.getPath()).getName();
@@ -128,6 +139,7 @@ public class TFScoreStripes {
         protected void reduce(Text key, Iterable<MapWritable> values, Context context)
                 throws IOException, InterruptedException {
 
+            System.out.println("[INFO] TFReducer: Reducing document: " + key.toString());
             Map<String, Integer> agg = new HashMap<>();
 
             for (MapWritable mw : values) {
@@ -163,6 +175,8 @@ public class TFScoreStripes {
         Job job = Job.getInstance(conf, "TF Score Stripes");
         job.setJarByClass(TFScoreStripes.class);
 
+        System.out.println("[INFO] Driver: Job initialization started...");
+
         // add DF cache file (only terms present in this file will be considered)
         job.addCacheFile(new Path(otherArgs[2]).toUri());
 
@@ -179,6 +193,8 @@ public class TFScoreStripes {
 
         FileInputFormat.addInputPath(job, new Path(otherArgs[0]));
         FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));
+
+        System.out.println("[INFO] Driver: Hadoop Input Splitting starting... (If processing EN dataset, this scan may take a while!)");
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
