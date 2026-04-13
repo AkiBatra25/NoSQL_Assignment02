@@ -1,25 +1,14 @@
-Problem 1(c): Word Co-occurrence using Stripes Approach
+Problem 1c: Stripes Approach
 
-Instructions to Run:
+Command to Execute:
+To run the Stripes approach program for distances d=1, 2, 3, and 4, we use the `run_all.sh` script to automate execution. For each distance `$d`, the following core command is run:
 
-1. Ensure Hadoop services are running:
-   start-dfs.sh
-   start-yarn.sh
+hadoop jar cooccurrence.jar StripesCooccurrence Wikipedia-EN-20120601_ARTICLES out_StripesCooccurrence_d$d $d
 
-2. Compile the Java programs and create the JAR (if not already done):
-   ./compile_hadoop.sh
-   # This script compiles StripesCooccurrence.java (and others) and creates cooccurrence.jar
+Execution Times:
+The execution time (in seconds) for each context window distance parameter (d) using Hadoop in Standalone mode on WSL:
 
-3. Ensure top50.txt (from Problem 1a) is available for the Distributed Cache:
-   hdfs dfs -put top50.txt top50.txt
-
-4. Run the MapReduce job for Stripes Approach:
-   # Usage: hadoop jar cooccurrence.jar StripesCooccurrence <input> <output> <distance>
-   # Example with distance = 2 (d2)
-   hdfs dfs -rm -r /stripes_output
-   hadoop jar cooccurrence.jar StripesCooccurrence /wiki /stripes_output 2
-
-5. View output:
-   hdfs dfs -cat /stripes_output/part-r-00000 | head
-
-6. Output contains associative arrays (Maps) of co-occurring words and their counts.
+w = 1 (d=1): 268 seconds
+w = 2 (d=2): 177 seconds
+w = 3 (d=3): 162 seconds
+w = 4 (d=4): 164 seconds
