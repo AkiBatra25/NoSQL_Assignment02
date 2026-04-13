@@ -1,0 +1,25 @@
+Problem 1(c): Word Co-occurrence using Stripes Approach
+
+Instructions to Run:
+
+1. Ensure Hadoop services are running:
+   start-dfs.sh
+   start-yarn.sh
+
+2. Compile the Java programs and create the JAR (if not already done):
+   ./compile_hadoop.sh
+   # This script compiles StripesCooccurrence.java (and others) and creates cooccurrence.jar
+
+3. Ensure top50.txt (from Problem 1a) is available for the Distributed Cache:
+   hdfs dfs -put top50.txt top50.txt
+
+4. Run the MapReduce job for Stripes Approach:
+   # Usage: hadoop jar cooccurrence.jar StripesCooccurrence <input> <output> <distance>
+   # Example with distance = 2 (d2)
+   hdfs dfs -rm -r /stripes_output
+   hadoop jar cooccurrence.jar StripesCooccurrence /wiki /stripes_output 2
+
+5. View output:
+   hdfs dfs -cat /stripes_output/part-r-00000 | head
+
+6. Output contains associative arrays (Maps) of co-occurring words and their counts.

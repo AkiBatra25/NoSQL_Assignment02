@@ -1,0 +1,27 @@
+Problem 1(b): Word Co-occurrence using Pairs Approach
+
+Instructions to Run:
+
+1. Ensure Hadoop services are running:
+   start-dfs.sh
+   start-yarn.sh
+
+2. Compile the Java programs and create the JAR:
+   ./compile_hadoop.sh
+   # This script compiles PairsCooccurrence.java (and others) and creates cooccurrence.jar
+
+3. Ensure top50.txt (from Problem 1a) is available for the Distributed Cache. 
+   If running on a cluster/HDFS, make sure it is uploaded:
+   hdfs dfs -put top50.txt top50.txt
+
+4. Run the MapReduce job for Pairs Approach:
+   # Usage: hadoop jar cooccurrence.jar PairsCooccurrence <input> <output> <distance>
+   # Example with distance = 2 (d2)
+   hdfs dfs -rm -r /pairs_output
+   hadoop jar cooccurrence.jar PairsCooccurrence /wiki /pairs_output 2
+
+5. View output:
+   hdfs dfs -cat /pairs_output/part-r-00000 | head
+
+6. Extract Top pairs:
+   hdfs dfs -cat /pairs_output/part-r-00000 | sort -k2 -nr | head -100 > pairs_d2_top.txt

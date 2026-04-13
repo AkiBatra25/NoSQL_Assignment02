@@ -1,0 +1,40 @@
+Problem 1(e): Word Co-occurrence Optimizations (Combiner and In-Mapper Combining)
+
+Instructions to Run:
+
+1. Ensure Hadoop services are running:
+   start-dfs.sh
+   start-yarn.sh
+
+2. Compile the Java programs and create the JAR (if not already done):
+   ./compile_hadoop.sh
+   # This script compiles Combiner and In-Mapper Combining classes to cooccurrence.jar
+
+3. Ensure top50.txt is available for the Distributed Cache:
+   hdfs dfs -put top50.txt top50.txt
+
+4. Run MapReduce jobs to test Optimizations:
+   # The code accepts arguments: <input> <output> <distance>
+   # We use distance = 2 for this example
+
+   # A. Pairs with Combiner
+   hdfs dfs -rm -r /pairs_combiner_output
+   hadoop jar cooccurrence.jar PairsCooccurrenceCombiner /wiki /pairs_combiner_output 2
+
+   # B. Pairs with In-Mapper Combining
+   hdfs dfs -rm -r /pairs_inmapper_output
+   hadoop jar cooccurrence.jar PairsCooccurrenceInMapper /wiki /pairs_inmapper_output 2
+
+   # C. Stripes with Combiner
+   hdfs dfs -rm -r /stripes_combiner_output
+   hadoop jar cooccurrence.jar StripesCooccurrenceCombiner /wiki /stripes_combiner_output 2
+
+   # D. Stripes with In-Mapper Combining
+   hdfs dfs -rm -r /stripes_inmapper_output
+   hadoop jar cooccurrence.jar StripesCooccurrenceInMapper /wiki /stripes_inmapper_output 2
+
+5. View outputs to verify they are identical to basic approaches:
+   hdfs dfs -cat /pairs_combiner_output/part-r-00000 | head
+   hdfs dfs -cat /pairs_inmapper_output/part-r-00000 | head
+   
+6. You can compare Map-to-Reduce data transfer statistics in Hadoop execution logs to verify the benefits of typical Combiners vs In-Mapper combining. 
