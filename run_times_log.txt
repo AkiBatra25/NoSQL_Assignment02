@@ -1,0 +1,25 @@
+Execution Times Log
+PairsCooccurrence (d=1) took 9 seconds.
+PairsCooccurrenceCombiner (d=1) took 9 seconds.
+PairsCooccurrenceInMapper (d=1) took 6 seconds.
+StripesCooccurrence (d=1) took 8 seconds.
+StripesCooccurrenceCombiner (d=1) took 6 seconds.
+StripesCooccurrenceInMapper (d=1) took 8 seconds.
+PairsCooccurrence (d=2) took 6 seconds.
+PairsCooccurrenceCombiner (d=2) took 9 seconds.
+PairsCooccurrenceInMapper (d=2) took 8 seconds.
+StripesCooccurrence (d=2) took 9 seconds.
+StripesCooccurrenceCombiner (d=2) took 8 seconds.
+StripesCooccurrenceInMapper (d=2) took 8 seconds.
+PairsCooccurrence (d=3) took 7 seconds.
+PairsCooccurrenceCombiner (d=3) took 7 seconds.
+PairsCooccurrenceInMapper (d=3) took 7 seconds.
+StripesCooccurrence (d=3) took 8 seconds.
+StripesCooccurrenceCombiner (d=3) took 8 seconds.
+StripesCooccurrenceInMapper (d=3) took 8 seconds.
+PairsCooccurrence (d=4) took 9 seconds.
+PairsCooccurrenceCombiner (d=4) took 7 seconds.
+PairsCooccurrenceInMapper (d=4) took 7 seconds.
+StripesCooccurrence (d=4) took 6 seconds.
+StripesCooccurrenceCombiner (d=4) took 8 seconds.
+StripesCooccurrenceInMapper (d=4) took 6 seconds.

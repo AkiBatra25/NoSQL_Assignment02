@@ -56,8 +56,10 @@ public class StripesCooccurrenceCombiner {
         job.setCombinerClass(StripeCombiner.class);
         job.setReducerClass(StripesCooccurrence.StripeReducer.class);
 
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(MapWritable.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(MapWritable.class);
+        job.setOutputValueClass(Text.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));

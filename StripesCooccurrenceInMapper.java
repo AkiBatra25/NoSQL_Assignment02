@@ -80,7 +80,7 @@ public class StripesCooccurrenceInMapper {
         }
     }
 
-    public static class StripeReducer extends Reducer<Text, MapWritable, Text, MapWritable> {
+    public static class StripeReducer extends Reducer<Text, MapWritable, Text, Text> {
 
         @Override
         public void reduce(Text key, Iterable<MapWritable> values, Context context)
@@ -102,7 +102,19 @@ public class StripesCooccurrenceInMapper {
                 }
             }
 
-            context.write(key, finalStripe);
+            StringBuilder sb = new StringBuilder();
+            sb.append("{");
+            boolean first = true;
+            for (Map.Entry<Writable, Writable> entry : finalStripe.entrySet()) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(entry.getKey().toString()).append("=").append(entry.getValue().toString());
+                first = false;
+            }
+            sb.append("}");
+
+            context.write(key, new Text(sb.toString()));
         }
     }
 
@@ -121,8 +133,10 @@ public class StripesCooccurrenceInMapper {
         job.setMapperClass(StripeMapper.class);
         job.setReducerClass(StripeReducer.class);
 
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(MapWritable.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(MapWritable.class);
+        job.setOutputValueClass(Text.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
