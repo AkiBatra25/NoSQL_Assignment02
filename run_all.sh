@@ -2,8 +2,10 @@
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export HADOOP_HOME=~/hadoop-3.3.6
 export PATH=$PATH:$HADOOP_HOME/bin
-cd /mnt/c/Users/Ideapad/NoMoreOneDrive/Documents/College_this_sem/NoSQL/NoSQL_Assign2/NoSQL_Assignment02
+cd "$(dirname "$0")"
 export HADOOP_CLASSPATH=$(hadoop classpath)
+export HADOOP_CLIENT_OPTS="-Xmx4g"
+export HADOOP_HEAPSIZE=4096
 
 echo "Compiling..."
 rm -rf cooccurrence.jar classes/*
@@ -11,7 +13,7 @@ mkdir -p classes
 javac -source 1.8 -target 1.8 -classpath "$HADOOP_CLASSPATH" -d classes StripesCooccurrence.java PairsCooccurrenceInMapper.java StripesCooccurrenceInMapper.java PairsCooccurrence.java PairsCooccurrenceCombiner.java StripesCooccurrenceCombiner.java
 jar -cvf cooccurrence.jar -C classes/ .
 
-INPUT_DIR="Wikipedia-50-ARTICLES"
+INPUT_DIR="Wikipedia-EN-20120601_ARTICLES"
 CLASSES=( "PairsCooccurrence" "PairsCooccurrenceCombiner" "PairsCooccurrenceInMapper" "StripesCooccurrence" "StripesCooccurrenceCombiner" "StripesCooccurrenceInMapper" )
 
 echo "Execution Times Log" > run_times_log.txt

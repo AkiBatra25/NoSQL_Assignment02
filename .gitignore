@@ -1,6 +1,8 @@
 output_local
 Wikipedia-50-ARTICLES/
 Wikipedia-50-ARTICLES.tar
+Wikipedia-EN-20120601_ARTICLES/
+Wikipedia-EN-20120601_ARTICLES.tar.gz
 out_*/
 classes/
 *.jar

@@ -1,18 +1,20 @@
-books	{june=1, http=18, quot=2, first=1}
-century	{june=1, press=3, people=1, quot=8, two=1, first=1}
-eric	{quot=3}
-film	{people=1, quot=3}
-first	{school=1, books=1, use=1, press=1, http=1, people=1, quot=9, july=1, two=1, century=1}
-html	{see=1, june=1, www=5, http=4, quot=3}
-http	{june=4, html=4, www=214, books=18, use=1, press=1, people=2, quot=21, two=2, first=1}
-july	{june=3, quot=2, first=1}
-june	{school=1, html=1, books=1, www=1, http=4, press=2, july=3, quot=3, two=1, century=1}
-people	{see=1, use=1, http=2, two=1, quot=18, film=1, century=1, first=1}
-press	{june=2, http=1, quot=3, century=3, first=1, ten=1}
-quot	{june=3, books=2, use=1, two=9, first=9, see=13, school=4, html=3, www=15, eric=3, press=3, http=21, people=18, july=2, film=3, century=8, ten=2}
-school	{june=1, quot=4, two=1, first=1}
-see	{html=1, people=1, quot=13}
-ten	{press=1, quot=2}
-two	{school=1, june=1, www=1, use=1, http=2, people=1, quot=9, century=1, first=1}
-use	{www=1, http=1, people=1, two=1, quot=1, first=1}
-www	{html=5, june=1, use=1, http=214, quot=15, two=1}
+books	{june=30, use=11, two=116, quot=350, first=105, see=32, school=17, html=89, www=105, eric=5, http=4040, press=118, rough=1, people=19, july=21, film=27, century=61, ten=15, ply=1, ocr=1}
+century	{june=15, books=61, use=21, two=64, quot=511, first=252, see=28, pos=1, school=32, html=13, jury=1, ree=1, www=48, eric=1, press=33, http=104, people=325, july=10, film=13, ten=5}
+eric	{june=2, books=5, use=1, quot=129, two=3, first=13, see=3, school=2, html=12, www=27, http=56, press=3, july=9, film=3, century=1, ten=2}
+film	{june=38, books=27, use=25, quot=727, two=77, send=2, first=373, see=83, school=43, jury=12, html=71, www=203, eric=3, http=227, press=11, rough=2, people=36, july=26, century=13, ten=12}
+first	{june=97, use=264, books=105, gst=1, quot=1793, two=769, send=3, see=69, school=246, html=53, jury=3, prt=1, www=48, eric=13, http=138, press=57, rough=5, people=83, july=95, film=373, century=252, ten=64, ocr=1}
+gst	{html=386, www=2, http=2, quot=2, first=1}
+html	{ste=1, june=166, books=89, use=7, gst=386, quot=164, two=20, send=3, first=53, see=39, school=36, jury=2, www=276, eric=12, press=105, http=364, rough=2, people=57, july=161, century=13, film=71, ten=9}
+http	{ste=1, june=693, books=4040, use=60, gst=2, quot=3439, two=135, send=2, first=138, see=112, pos=1, school=235, html=364, ree=1, jury=3, www=52089, eric=56, press=396, people=310, july=737, film=227, century=104, ten=28}
+july	{ste=2, june=383, books=21, use=6, quot=573, two=36, send=1, first=95, see=42, school=22, html=161, prt=1, www=231, eric=9, http=737, press=60, rough=2, people=38, film=26, century=10, ten=7}
+june	{books=30, use=5, yers=1, quot=573, two=42, first=97, see=54, school=36, html=166, jury=1, www=260, eric=2, http=693, press=74, people=28, july=383, film=38, century=15, ten=6}
+jury	{june=1, use=1, quot=35, two=4, first=3, see=1, school=1, html=2, www=1, http=3, press=2, people=1, film=12, century=1, ten=2}
+nil	{quot=9, two=2}
+ocr	{books=1, quot=2, first=1}
+people	{ste=1, june=28, use=73, books=19, two=153, quot=1050, send=2, first=83, see=97, school=79, html=57, jury=1, www=386, http=310, press=24, populi=1, july=38, film=36, century=325, ten=15}
+ply	{books=1, quot=2, ten=1}
+populi	{people=1, quot=4}
+pos	{http=1, quot=6, century=1}
+press	{june=74, books=118, use=7, quot=532, two=16, send=1, first=57, see=35, school=35, html=105, jury=2, prt=1, www=208, eric=3, http=396, people=24, july=60, film=11, century=33, ten=7}
+prt	{press=1, july=1, first=1}
+quot	{ste=4, june=573, books=350, send=72, first=1793, html=164, jury=35, populi=4, people=1050, july=573, ply=2, use=603, gst=2, two=1294, see=992, pos=6, school=732, nil=9, ree=6, www=2170, eric=129, http=3439, press=532, rough=42, century=511, film=727, ten=260, ocr=2}
